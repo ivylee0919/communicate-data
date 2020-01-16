@@ -1,17 +1,57 @@
-# (Dataset Exploration Title)
-## by (your name here)
+# 共享单车用户写照
+## by Ivy
 
 
-## Dataset
+## 数据集
 
-> Provide basic information about your dataset in this section. If you selected your own dataset, make sure you note the source of your data and summarize any data wrangling steps that you performed before you started your exploration.
+> 该数据集包含有关在旧金山湾区的自行车共享系统中的单次骑行信息。下载地址为：https://s3.amazonaws.com/baywheels-data/index.html 。本次分析只下载了 2018 年 1 - 12 月的数据。每条信息都是匿名的，其中包括:
+- 骑行时长
+- 开始时间
+- 结束时间
+- 开始站点 ID
+- 开始站点名称
+- 开始站点纬度
+- 开始站点经度
+- 结束站点 ID
+- 结束站点名称
+- 结束站点纬度
+- 结束站点经度
+- 车辆 ID
+- 用户类型：
+    1. 会员："Subscriber" 或者 "Member"
+    2. 散客："Customer" 或者 "Casual"
+- 会员出生年份
+- 会员性别
+- 是否参与 Bike Share for All 计划
+
+因为数据集太大，下载地址下载下来的是 zip 文件，初始需要运行以下代码获取完整数据（包含在 Notebook 文件中，不需要复制）：
+```python
+if '2018-fordgobike-tripdata.csv' not in os.listdir(): # 判断当前工作目录是否存在目标数据集
+    csv_list = unzip_csv() # 解压所有 zip 文件
+    df = append_csv(csv_list) # 将所有 csv 文件读取并合并到一个数据集
+    df.to_csv('2018-fordgobike-tripdata.csv',index=False) # 保存为一个 2018 年的数据集
+else:
+    df = pd.read_csv('2018-fordgobike-tripdata.csv')
+```
 
 
-## Summary of Findings
+## 发现总结
 
-> Summarize all of your findings from your exploration here, whether you plan on bringing them into your explanatory presentation or not.
+- 骑行时长大部分都在 1 小时以下，最多的位于 5-20 分钟的范围内；
+- 共享单车的 88% 用户都是会员用户；
+- 男性的会员比例相对较高，但是差异不大；
+- 会员的年龄总体来说比非会员要大，均值、Q1、Q2、Q3 都是会员的值大，会员的年龄较为集中在 28-38，而非会员的年龄分布更均匀；
+- 会员的骑行时长相对更短，非会员的分布更加均匀且时长偏长，会员的时间非常集中在 5-20 分钟的范围内；
+- 使用共享单车最多的时间是工作日和通勤上下班高峰，会员更符合这一特征，散客则周末较多，也没有上下班的峰值；
+- 寒冷的月份共享单车的使用会降低，同时，会员订单的比例相对会变高；
+- 工作日的订单骑行时长更集中、更短，周末的骑行时长更为分散，相对时间较长
+- 工作日的订单数量，会有通勤上下班两个高峰，但是周末的订单数量没有这个特征；
+- 夜晚和凌晨的骑行时长较为分散，没有那么明确的规律；
 
 
-## Key Insights for Presentation
+## 演示文稿中的关键见解
 
-> Select one or two main threads from your exploration to polish up for your presentation. Note any changes in design from your exploration step here.
+- 共享单车的 88% 用户都是会员用户；
+- 会员的骑行时长相对更短，非会员的分布更加均匀且时长偏长，会员的时间非常集中在 5-20 分钟的范围内；
+- 使用共享单车最多的时间是工作日和通勤上下班高峰，会员更符合这一特征，散客则周末较多，也没有上下班的峰值；
+- 工作日的订单骑行时长更集中、更短，周末的骑行时长更为分散，相对时间较长
