@@ -24,7 +24,8 @@
 - 会员性别
 - 是否参与 Bike Share for All 计划
 
-因为数据集太大，下载地址下载下来的是 zip 文件，初始需要运行以下代码获取完整数据（包含在 Notebook 文件中，不需要复制）：
+因为数据集太大，下载地址下载下来的是 zip 文件，初始需要运行以下代码获取完整数据（包含在 Notebook 文件中，不需要复制）。
+**注意，如果想要以下代码运行成功，下载下来的 zip 文件需要保存在名称为 `zip` 的文件夹中。**
 ```python
 if '2018-fordgobike-tripdata.csv' not in os.listdir(): # 判断当前工作目录是否存在目标数据集
     csv_list = unzip_csv() # 解压所有 zip 文件
@@ -33,7 +34,7 @@ if '2018-fordgobike-tripdata.csv' not in os.listdir(): # 判断当前工作目�
 else:
     df = pd.read_csv('2018-fordgobike-tripdata.csv')
 ```
-
+*你也可以修改 `parse_data.py` 的内容，修改读取 zip 文件的目录名称。*
 
 ## 发现总结
 
