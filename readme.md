@@ -24,16 +24,13 @@
 - 会员性别
 - 是否参与 Bike Share for All 计划
 
-因为数据集太大，下载地址下载下来的是 zip 文件，初始需要运行以下代码获取完整数据（包含在 Notebook 文件中，不需要复制）。
-**注意，如果想要以下代码运行成功，下载下来的 zip 文件需要保存在名称为 `zip` 的文件夹中。**
-```python
-if '2018-fordgobike-tripdata.csv' not in os.listdir(): # 判断当前工作目录是否存在目标数据集
-    csv_list = unzip_csv() # 解压所有 zip 文件
-    df = append_csv(csv_list) # 将所有 csv 文件读取并合并到一个数据集
-    df.to_csv('2018-fordgobike-tripdata.csv',index=False) # 保存为一个 2018 年的数据集
-else:
-    df = pd.read_csv('2018-fordgobike-tripdata.csv')
-```
+因为数据集太大，repo 中没有提供数据文件，如果想要运行代码，需要先从 https://s3.amazonaws.com/baywheels-data/index.html 下载数据集，分析对象为 2018 年的 12 个月份数据，如下图所示：
+
+![](zip/file_name.png)
+
+将 12 个 zip 数据文件放入这个 zip 目录中，才可以正确运行代码。
+**注意，如果想要以下代码运行成功，下载下来的 zip 文件需要保存在名称为 `zip` 的文件夹中：[zip](zip)**
+
 *你也可以修改 `parse_data.py` 的内容，修改读取 zip 文件的目录名称。*
 
 ## 发现总结
