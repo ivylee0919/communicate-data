@@ -1,22 +1,30 @@
 import pandas as pd
 import os
+import requests
 import zipfile
+import io
 
-def unzip_csv():
+
+def unzip_csv(urls):
     '''
-    将 zip 文件夹中的所有 zip 文件都解压到当前目录下
-    并返回解压后的 csv 文件名列表
+    将 urls 中的 zip 数据下载并解压到 data 文件夹中
+    返回解压后的 csv 文件名列表
     '''
-    zip_list = os.listdir('zip/')
-    # 解压所有压缩包
+    if not os.path.exists('data'):
+        os.makedirs('data')
+
+    data_list = os.listdir('data/')
     csv_list = []
-    for file in zip_list:
-        if file[-4:] == '.zip':
-            with zipfile.ZipFile('zip/'+file, 'r') as myzip:
-                csv_file = myzip.namelist()[0]
-                csv_list.append(csv_file)
-                myzip.extract(csv_file)
+
+    for url in urls:
+        r = requests.get(url)
+        file_name = url.split('/')[-1][:-4]
+        csv_list.append(file_name)
+        if file_name not in data_list:
+            z = zipfile.ZipFile(io.BytesIO(r.content))
+            z.extractall('data')
     return csv_list
+
 
 def append_csv(csv_list):
     '''
@@ -27,7 +35,8 @@ def append_csv(csv_list):
     df = pd.DataFrame()
     df_shape = 0
     for c in csv_list:
-        df_month = pd.read_csv(c)
+        csv_path = 'data/' + c
+        df_month = pd.read_csv(csv_path)
         df_shape += df_month.shape[0]
         df = df.append(df_month)
     return df
